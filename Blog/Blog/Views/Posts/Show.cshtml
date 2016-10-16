@@ -1,0 +1,172 @@
+﻿@model Blog.Models.Post
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<div class="col-md-8">
+
+    <h1>@Model.Title</h1>
+    <!-- Author -->
+    <p class="lead">
+        by <i>Admin</i>
+    </p>
+    <hr>
+    <!-- Date/Time -->
+    <p><span class="glyphicon glyphicon-time"></span> @Model.Date</p>
+    <hr>
+
+
+
+    <h5 class="well">@Model.Content</h5>
+
+    @if (Model.Comments.Count == 0)
+    {
+        <p><label>There are no comments for this post!</label></p>
+
+    }
+</div>
+
+    @if(Model.Comments.Count > 0){
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+<h2 class="page-header">Comments</h2>
+                <section class="comment-list">
+
+                    @foreach (var comment in Model.Comments)
+                    {
+
+         <!-- First Comment -->
+                        <article class="row">
+                            <div class="col-md-2 col-sm-2 hidden-xs">
+                                <figure class="thumbnail">
+
+                                    <img class="img-responsive" src="~/Content/Images/avatar.jpg" />
+                                    <figcaption class="text-center">@Html.DisplayFor(s => comment.UserId)</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="panel panel-default arrow left">
+                                    <div class="panel-body">
+                                        <header class="text-left">
+                                            <div class="comment-user"><i class="fa fa-user"></i> @Html.DisplayFor(s => comment.UserId)</div>
+                                            <time class="comment-date" datetime="@comment.Date"><i class="fa fa-clock-o"></i> @comment.Date</time>
+                                        </header>
+                                        <div class="comment-post">
+                                            <p>
+                                                @Html.DisplayFor(s => comment.Text)
+                                            </p>
+                                        </div>
+                                        @*<p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>*@
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        //reply form
+                        //<form name="reply" action="/Comments/AddReply/@comment.CommentId" method="post">
+                        //     <input type="hidden" name="PostId" value="@Model.PostId" />
+
+                        //     <input type="hidden" name="CommentId" value="@comment.CommentId" />
+
+                        //     <textarea name="Text" class="form-control" cols="10" rows="5"></textarea>
+                        //  <input type="text" name="Text" value="" class="form-control" />
+                        //     <input type="submit" name="Submit" value="Reply" class="btn btn-default" />
+                        // </form>
+
+
+                        @*     foreach (var reply in comment.Replies)
+                      {
+
+
+
+               <!-- Second Comment Reply -->
+            <article class="row">
+                  <div class="col-md-2 col-sm-2 col-md-offset-1 col-sm-offset-0 hidden-xs">
+                      <figure class="thumbnail">
+                          <img class="img-responsive" src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" />
+                          <figcaption class="text-center">@reply.UserId</figcaption>
+                      </figure>
+                  </div>
+                  <div class="col-md-9 col-sm-9">
+                      <div class="panel panel-default arrow left">
+                          <div class="panel-heading right">Reply</div>
+                          <div class="panel-body">
+                              <header class="text-left">
+                                  <div class="comment-user"><i class="fa fa-user"></i> @reply.UserId</div>
+                                  <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i>@comment.Date</time>
+                              </header>
+                              <div class="comment-post">
+                                  <p>
+                                      @Html.DisplayFor(s => reply.Text)
+                                  </p>
+                              </div>
+                              <p class="text-right"><a href="#" class="btn btn-default btn-sm klasa"><i class="fa fa-reply"></i> reply</a></p>
+                          </div>
+                      </div>
+                  </div>
+              </article>
+
+
+    }
+
+                        *@
+
+
+
+                    }
+                </section> 
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-1">
+            @if (Request.IsAuthenticated)
+            {
+                <p>
+                    <div class="well col-md-offset-1">
+                        <h4>Leave a Comment:</h4>
+                        <form role="form" method="post" action="/Posts/AddComment/@Model.PostId">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <textarea rows="4" name="Text" class="form-control" placeholder="Share your thoughts"></textarea>
+                            </div>
+
+
+                            <input type="submit" value="Submit" class="btn btn-primary" />
+
+
+                        </form>
+
+                    </div>
+                </p>
+
+            }
+            else
+            {
+                <p><label>You must <a href="~/Account/Login">Log in</a> to post a comment!</label></p>
+            }
+        </div>
+    </div>
+
+</div>
+
+<p>
+
+</p>
+
+
+
+
+
